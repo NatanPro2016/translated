@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Loading from "./Loading";
 
 type params = {
@@ -12,8 +13,13 @@ const LanguageOutput = ({
   response,
   isLoading,
 }: params) => {
+  const [iscopid, setIscopied] = useState<boolean>(false);
   const handleCopy = () => {
     navigator.clipboard.writeText(response);
+    setIscopied(true);
+    setTimeout(() => {
+      setIscopied(false);
+    }, 3000);
   };
   const langues = [
     ["am", "Amharic"],
@@ -57,7 +63,6 @@ const LanguageOutput = ({
               : " px-2 py-1 font-bold"
           }
         >
-          {" "}
           English
         </label>
         <input
@@ -100,7 +105,7 @@ const LanguageOutput = ({
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
           <img
-            src="/Copy.svg"
+            src={iscopid ? "check.svg" : "Copy.svg"}
             alt=""
             className="p-1 border-[#4D5562] border-2 rounded-lg cursor-pointer"
             onClick={handleCopy}
